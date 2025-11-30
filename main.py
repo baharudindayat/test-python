@@ -1,5 +1,6 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import PlainTextResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pypdf import PdfReader
 import re
 import requests
@@ -10,6 +11,15 @@ app = FastAPI(
     title="HR Interviewer API",
     description="Upload résumé PDF → get brutal HR feedback in pure Markdown",
     version="1.1"
+)
+
+# ==================== CORS Configuration ====================
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
 )
 
 OLLAMA_URL = "https://ollama-gemma3-270m-gpu-746057898178.europe-west1.run.app/api/chat"
